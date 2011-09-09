@@ -1,0 +1,7 @@
+*.iws
+*.iml
+*.ipr
+.idea
+cdi/target/
+arquillian/target/
+

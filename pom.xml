@@ -1,0 +1,345 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.jboss</groupId>
+        <artifactId>jboss-parent</artifactId>
+        <version>5</version>
+    </parent>
+    <groupId>org.jboss.workshop</groupId>
+    <artifactId>workshop-build</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>JBoss Workshop</name>
+    <url>http://www.jboss.org/</url>
+    <description>JBoss Workshop</description>
+
+    <modules>
+        <module>cdi</module>
+    </modules>
+
+    <properties>
+        <version.cdi.api>1.0-SP4</version.cdi.api>
+        <version.com.google.guava>1.0.0.R05</version.com.google.guava>
+        <version.json>20090211</version.json>
+        <version.org.jboss.logging>3.0.0.GA</version.org.jboss.logging>
+        <version.javassist>3.14.0-GA</version.javassist>
+        <slf4j.version>1.5.10</slf4j.version>
+        <cal10n.version>0.7.2</cal10n.version>
+        <version.javax.validation>1.0.0.GA</version.javax.validation>
+        <version.javax.servlet>2.5</version.javax.servlet>
+        <version.javax.servlet.jsp>2.1</version.javax.servlet.jsp>
+        <version.org.infinispan>5.0.0.FINAL</version.org.infinispan>
+        <version.junit>4.7</version.junit>
+        <version.arquillian>1.0.0.CR4</version.arquillian>
+        <version.weld>1.1.2.Final</version.weld>
+        <version.seam>3.0.0.Final</version.seam>
+        <arquillian.weld.version>1.0.0.CR2</arquillian.weld.version>
+        <jboss.interceptor.version>2.0.0.CR1</jboss.interceptor.version>
+        <jboss.spec.ejb.version>1.0.0.CR2</jboss.spec.ejb.version>
+        <version.el>2.2</version.el>
+        <version.jta>1.1</version.jta>
+        <version.jpa>1.0</version.jpa>
+        <version.validation>1.0.0.GA</version.validation>
+        <version.metainf>1.1</version.metainf>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                    <debug>true</debug>
+                    <encoding>UTF-8</encoding>
+                    <fork>true</fork>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.0-beta-9</version>
+                <configuration>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-idea-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <downloadSources>true</downloadSources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.4.3</version>
+                <configuration>
+                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
+                    <includes>
+                        <include>org/jboss/test/**/*TestCase.java</include>
+                    </includes>
+                    <systemProperties>
+                        <property>
+                            <name>capedwarf.localhost</name>
+                            <value>://localhost:8080/client/</value>
+                        </property>
+                    </systemProperties>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>oss-sonatype-central</id>
+            <name>OSS Sonatype Central</name>
+            <url>https://oss.sonatype.org/content/repositories/central/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+        </repository>
+        <repository>
+            <id>maven-gae-plugin</id>
+            <name>Maven-gae-plugin Repository</name>
+            <url>http://maven-gae-plugin.googlecode.com/svn/repository</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+        </repository>
+        <repository>
+            <id>mvnrepository</id>
+            <name>Maven Repository</name>
+            <url>http://mvnrepository.com/artifact/</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+        </repository>
+        <repository>
+            <id>atlassian</id>
+            <name>Atlassian Repository</name>
+            <url>https://maven.atlassian.com/content/groups/public</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+        </repository>
+        <repository>
+            <id>datanucleus</id>
+            <name>Datanucleus Repository</name>
+            <url>http://www.datanucleus.org/downloads/maven2</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+        </repository>
+        <repository>
+            <id>jboss-public-repository-group</id>
+            <name>JBoss Public Maven Repository Group</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>jboss-deprecated-repository</id>
+            <name>JBoss Deprecated Maven Repository</name>
+            <url>https://repository.jboss.org/nexus/content/repositories/deprecated</url>
+            <layout>default</layout>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>never</updatePolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <dependencyManagement>
+        <!-- The parent pom manages the inter-dependencies of the modules. -->
+        <dependencies>
+
+            <!-- Common code -->
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${version.com.google.guava}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <version>${version.javax.servlet}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet.jsp</groupId>
+                <artifactId>jsp-api</artifactId>
+                <version>${version.javax.servlet.jsp}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.infinispan</groupId>
+                <artifactId>infinispan-core</artifactId>
+                <version>${version.org.infinispan}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!--JBoss Weld / CDI -->
+
+            <dependency>
+                <groupId>javax.enterprise</groupId>
+                <artifactId>cdi-api</artifactId>
+                <version>${version.cdi.api}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.javassist</groupId>
+                <artifactId>javassist</artifactId>
+                <version>${version.javassist}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.kohsuke.metainf-services</groupId>
+                <artifactId>metainf-services</artifactId>
+                <version>${version.metainf}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.seam.solder</groupId>
+                <artifactId>seam-solder</artifactId>
+                <version>${version.seam}</version>
+            </dependency>
+
+            <!-- Testing -->
+
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${version.junit}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.arquillian.junit</groupId>
+                <artifactId>arquillian-junit-container</artifactId>
+                <version>${version.arquillian}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.arquillian.container</groupId>
+                <artifactId>arquillian-weld-ee-embedded-1.1</artifactId>
+                <version>${arquillian.weld.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.weld</groupId>
+                <artifactId>weld-core</artifactId>
+                <version>${version.weld}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-ext</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-jdk14</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.cal10n</groupId>
+                <artifactId>cal10n-api</artifactId>
+                <version>${cal10n.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.interceptor</groupId>
+                <artifactId>jboss-interceptor-spi</artifactId>
+                <version>${jboss.interceptor.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.interceptor</groupId>
+                <artifactId>jboss-interceptor-core</artifactId>
+                <version>${jboss.interceptor.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jboss.spec.javax.ejb</groupId>
+                <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+                <version>${jboss.spec.ejb.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.el</groupId>
+                <artifactId>el-api</artifactId>
+                <version>${version.el}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.transaction</groupId>
+                <artifactId>jta</artifactId>
+                <version>${version.jta}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.persistence</groupId>
+                <artifactId>persistence-api</artifactId>
+                <version>${version.jpa}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${version.validation}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <scm>
+        <connection>scm:git:git://github.com/alesj/cdi-arq-workshop.git</connection>
+        <developerConnection>scm:git:git://github.com/alesj/cdi-arq-workshop.git</developerConnection>
+        <url>scm:git:git://github.com/alesj/cdi-arq-workshop.git</url>
+    </scm>
+
+</project>
+
