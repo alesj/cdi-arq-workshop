@@ -15,6 +15,7 @@
     <description>JBoss Workshop</description>
 
     <modules>
+        <module>arquillian</module>
         <module>cdi</module>
     </modules>
 
