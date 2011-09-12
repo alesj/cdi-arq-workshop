@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.test.workshop.cdi.produces.test;
+package org.jboss.test.workshop.cdi.observes.test;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OperateOnDeployment;
@@ -29,38 +29,28 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.test.workshop.cdi.produces.support.BeanProducer;
-import org.junit.Assert;
+import org.jboss.test.workshop.cdi.observes.support.Msg;
+import org.jboss.test.workshop.cdi.observes.support.Producer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
  */
 @RunWith(Arquillian.class)
-public class ProducesTestCase {
+public class ObservesTestCase {
 
-    @Deployment(name = "produces")
+    @Deployment(name = "observes")
     public static Archive qualifiedDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addClasses(BeanProducer.class)
+                .addPackage(Msg.class.getPackage())
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
     @Test
-    @OperateOnDeployment("produces")
-    public void testProducesBean(InputStream is) throws Exception {
-        Assert.assertNotNull(is);
-        System.out.println();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-        String line;
-        while ((line = reader.readLine()) != null)
-            System.out.println(line);
-        System.out.println();
+    @OperateOnDeployment("observes")
+    public void testProducesBean(Producer producer) throws Exception {
+        producer.send(new Msg("Testing @Observes"));
     }
 
 }
