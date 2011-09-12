@@ -25,19 +25,6 @@ package org.jboss.test.workshop.cdi.observes.support;
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
  */
-public class Msg {
-    private String text;
-
-    public Msg(String text) {
-        this.text = text;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    @Override
-    public String toString() {
-        return getText();
-    }
+public interface Msg<T> {
+    T getValue();
 }

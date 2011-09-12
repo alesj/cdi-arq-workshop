@@ -23,6 +23,8 @@
 package org.jboss.test.workshop.cdi.observes.support;
 
 import javax.enterprise.event.Event;
+import javax.enterprise.util.AnnotationLiteral;
+import javax.enterprise.util.TypeLiteral;
 import javax.inject.Inject;
 
 /**
@@ -30,9 +32,32 @@ import javax.inject.Inject;
  */
 public class Producer {
     @Inject
-    private Event<Msg> event;
+    private Event<Msg> generic;
+    @Inject
+    private Event<Msg<String>> texts;
 
-    public void send(Msg msg) {
-        event.fire(msg);
+    public void sendText(String text) {
+        TextMsg msg = new TextMsg(text);
+        generic.select(new TypeLiteral<Msg<String>>() {
+        }).fire(msg);
+        texts.fire(msg);
     }
+
+    public void sendBytes(byte[] value) {
+        BytesMsg msg = new BytesMsg(value);
+        generic.select(new TypeLiteral<Msg<byte[]>>() {
+        }).fire(msg);
+    }
+
+    public void sendNumber(Number x) {
+        NumberMsg msg = new NumberMsg(x);
+        generic.select(new TypeLiteral<Msg<Number>>() {
+        }).fire(msg);
+    }
+
+    public void sendSecure(String text) {
+        texts.select(new AnnotationLiteral<Secure>() {
+        }).fire(new TextMsg(text));
+    }
+
 }

@@ -22,27 +22,22 @@
 
 package org.jboss.test.workshop.cdi.observes.support;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.event.Observes;
-
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
  */
-@ApplicationScoped
-public class Consumer {
-    public void consumeText(@Observes Msg msg) {
-        System.out.println("@Any msg = " + msg);
+public class BytesMsg implements Msg<byte[]> {
+    private byte[] bytes;
+
+    public BytesMsg(byte[] bytes) {
+        this.bytes = bytes;
     }
 
-    public void consumeBytes(@Observes Msg<byte[]> msg) {
-        System.out.println("bytes msg = " + msg);
+    public byte[] getValue() {
+        return bytes;
     }
 
-    public void consumeNumber(@Observes Msg<Number> msg) {
-        System.out.println("number msg = " + msg);
-    }
-
-    public void consumeSecure(@Observes @Secure Msg<String> msg) {
-        System.out.println("secure msg = " + msg);
+    @Override
+    public String toString() {
+        return new String(bytes);
     }
 }

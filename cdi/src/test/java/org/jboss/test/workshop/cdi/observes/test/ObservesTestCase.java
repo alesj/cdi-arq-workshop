@@ -50,7 +50,10 @@ public class ObservesTestCase {
     @Test
     @OperateOnDeployment("observes")
     public void testProducesBean(Producer producer) throws Exception {
-        producer.send(new Msg("Testing @Observes"));
+        producer.sendText("Testing @Observes");
+        producer.sendBytes("SIOUG".getBytes()); // TODO -- check this, broken?
+        producer.sendNumber(42);
+        producer.sendSecure("Some Password");
     }
 
 }
