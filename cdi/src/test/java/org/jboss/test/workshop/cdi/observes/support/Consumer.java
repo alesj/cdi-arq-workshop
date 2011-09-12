@@ -24,6 +24,7 @@ package org.jboss.test.workshop.cdi.observes.support;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
+import javax.enterprise.event.TransactionPhase;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
@@ -42,7 +43,7 @@ public class Consumer {
         System.out.println("number msg = " + msg);
     }
 
-    public void consumeSecure(@Observes @Secure Msg<String> msg) {
+    public void consumeSecure(@Observes(during = TransactionPhase.AFTER_SUCCESS) @Secure Msg<String> msg) {
         System.out.println("secure msg = " + msg);
     }
 }
