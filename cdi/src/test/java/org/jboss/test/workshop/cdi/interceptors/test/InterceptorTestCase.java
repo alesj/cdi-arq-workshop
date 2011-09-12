@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.test.workshop.cdi.observes.test;
+package org.jboss.test.workshop.cdi.interceptors.test;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OperateOnDeployment;
@@ -29,8 +29,7 @@ import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.jboss.test.workshop.cdi.observes.support.Msg;
-import org.jboss.test.workshop.cdi.observes.support.Producer;
+import org.jboss.test.workshop.cdi.interceptors.support.AuditInterceptor;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -38,22 +37,19 @@ import org.junit.runner.RunWith;
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
  */
 @RunWith(Arquillian.class)
-public class ObservesTestCase {
+public class InterceptorTestCase {
 
-    @Deployment(name = "observes")
+    @Deployment(name = "interceptors")
     public static Archive getDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addPackage(Msg.class.getPackage())
+                .addPackage(AuditInterceptor.class.getPackage())
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
     @Test
-    @OperateOnDeployment("observes")
-    public void testObserves(Producer producer) throws Exception {
-        producer.sendText("Testing @Observes");
-        producer.sendBytes("SIOUG".getBytes()); // TODO -- check this, broken?
-        producer.sendNumber(42);
-        producer.sendSecure("Some Password");
+    @OperateOnDeployment("intercptors")
+    public void testInterceptors() throws Exception {
+        // TODO
     }
 
 }

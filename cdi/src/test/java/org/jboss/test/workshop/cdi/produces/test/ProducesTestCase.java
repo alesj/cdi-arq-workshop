@@ -45,7 +45,7 @@ import java.io.InputStreamReader;
 public class ProducesTestCase {
 
     @Deployment(name = "produces")
-    public static Archive qualifiedDeployment() {
+    public static Archive getDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
                 .addClasses(BeanProducer.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");

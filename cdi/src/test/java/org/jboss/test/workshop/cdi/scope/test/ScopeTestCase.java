@@ -43,7 +43,7 @@ import org.junit.runner.RunWith;
 public class ScopeTestCase {
 
     @Deployment(name = "conversation")
-    public static Archive qualifiedDeployment() {
+    public static Archive getDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
                 .addClasses(StateBean.class, A.class, B.class)
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
