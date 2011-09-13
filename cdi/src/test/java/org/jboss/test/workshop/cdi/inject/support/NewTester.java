@@ -22,23 +22,32 @@
 
 package org.jboss.test.workshop.cdi.inject.support;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.New;
+import javax.inject.Inject;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
  */
-@ApplicationScoped
-public class Circle extends Square {
+public class NewTester {
+    @Inject private Shape first;
+    @Inject private Shape second;
+    @Inject @New private Circle third; // TODO - check?
 
-    public Circle() {
-        super();
+    public Shape getFirst() {
+        return first;
     }
 
-    public Circle(double r) {
-        super(r);
+    public Shape getSecond() {
+        return second;
     }
 
-    public double area() {
-        return super.area() * Math.PI;
+    public Shape getThird() {
+        return third;
+    }
+
+    public void check() {
+        System.out.println("1st = " + first);
+        System.out.println("2nd = " + second);
+        System.out.println("3rd = " + third);
     }
 }
