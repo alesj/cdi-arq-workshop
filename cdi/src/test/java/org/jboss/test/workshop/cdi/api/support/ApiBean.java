@@ -20,39 +20,38 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.test.workshop.cdi.observes.support;
+package org.jboss.test.workshop.cdi.api.support;
 
-import javax.enterprise.event.Event;
-import javax.enterprise.util.AnnotationLiteral;
-import javax.enterprise.util.TypeLiteral;
+import javax.enterprise.inject.Any;
+import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.BeanManager;
+import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
+import java.lang.annotation.Annotation;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
  */
-public class Producer {
+public class ApiBean {
 
-    @Inject private Event<Msg> generic;
-    @Inject private Event<Msg<String>> texts;
+    @Inject @Any private Instance<Car> cars;
+    @Inject private BeanManager manager;
 
-    public void sendText(String text) {
-        TextMsg msg = new TextMsg(text);
-        generic.select(new TypeLiteral<Msg<String>>() {}).fire(msg);
-        texts.fire(msg);
+    public Iterable<Car> findCar(Annotation... filter) {
+        return cars.select(filter);
     }
 
-    public void sendBytes(byte[] value) {
-        BytesMsg msg = new BytesMsg(value);
-        generic.select(new TypeLiteral<Msg<byte[]>>() {}).fire(msg);
+    public BeanManager getManager() {
+        return manager;
     }
 
-    public void sendNumber(Number x) {
-        NumberMsg msg = new NumberMsg(x);
-        generic.select(new TypeLiteral<Msg<Number>>() {}).fire(msg);
+    @Produces @Modified
+    public Car anotherBadCar(final InjectionPoint ip) {
+        return new Car() {
+            public int numberOfWheels() {
+                return ip.getAnnotated().getAnnotation(Modified.class).wheels();
+            }
+        };
     }
-
-    public void sendSecure(String text) {
-        texts.select(new AnnotationLiteral<Secure>() {}).fire(new TextMsg(text));
-    }
-
 }

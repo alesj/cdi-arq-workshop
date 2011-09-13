@@ -20,39 +20,19 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.test.workshop.cdi.observes.support;
+package org.jboss.test.workshop.cdi.api.support;
 
-import javax.enterprise.event.Event;
-import javax.enterprise.util.AnnotationLiteral;
-import javax.enterprise.util.TypeLiteral;
-import javax.inject.Inject;
+import javax.inject.Qualifier;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
  */
-public class Producer {
-
-    @Inject private Event<Msg> generic;
-    @Inject private Event<Msg<String>> texts;
-
-    public void sendText(String text) {
-        TextMsg msg = new TextMsg(text);
-        generic.select(new TypeLiteral<Msg<String>>() {}).fire(msg);
-        texts.fire(msg);
-    }
-
-    public void sendBytes(byte[] value) {
-        BytesMsg msg = new BytesMsg(value);
-        generic.select(new TypeLiteral<Msg<byte[]>>() {}).fire(msg);
-    }
-
-    public void sendNumber(Number x) {
-        NumberMsg msg = new NumberMsg(x);
-        generic.select(new TypeLiteral<Msg<Number>>() {}).fire(msg);
-    }
-
-    public void sendSecure(String text) {
-        texts.select(new AnnotationLiteral<Secure>() {}).fire(new TextMsg(text));
-    }
-
+@Qualifier
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.PARAMETER, ElementType.TYPE, ElementType.METHOD})
+public @interface Bad {
 }
