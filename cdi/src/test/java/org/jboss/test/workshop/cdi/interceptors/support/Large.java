@@ -22,31 +22,17 @@
 
 package org.jboss.test.workshop.cdi.interceptors.support;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
+import javax.inject.Qualifier;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
  */
-@ApplicationScoped
-public class BusinessObject {
-
-    @Inject @Large Account account;
-
-    @Auditable
-    public void print(String msg) {
-        System.out.println("msg = " + msg);
-    }
-
-    public void witdraw(double amount) {
-        account.witdraw(amount);
-    }
-
-    public void deposit(double amount) {
-        account.deposit(amount);
-    }
-
-    public double getState() {
-        return account.getState();
-    }
+@Qualifier
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.FIELD, ElementType.METHOD})
+public @interface Large {
 }

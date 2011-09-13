@@ -22,31 +22,28 @@
 
 package org.jboss.test.workshop.cdi.interceptors.support;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.decorator.Decorator;
+import javax.decorator.Delegate;
 import javax.inject.Inject;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
  */
-@ApplicationScoped
-public class BusinessObject {
+@Decorator
+public abstract class LargeAmountAccount implements Account {
 
-    @Inject @Large Account account;
-
-    @Auditable
-    public void print(String msg) {
-        System.out.println("msg = " + msg);
-    }
+    @Inject @Large @Delegate private Account delegate;
 
     public void witdraw(double amount) {
-        account.witdraw(amount);
+        System.out.println("Before [" + delegate.getState() + "], withdrawing amount = " + amount);
+        delegate.witdraw(amount);
+        System.out.println("After [" + delegate.getState() + "], withdrawn amount = " + amount);
     }
 
     public void deposit(double amount) {
-        account.deposit(amount);
+        System.out.println("Before [" + delegate.getState() + "], depositing amount = " + amount);
+        delegate.deposit(amount);
+        System.out.println("After [" + delegate.getState() + "], deposited amount = " + amount);
     }
 
-    public double getState() {
-        return account.getState();
-    }
 }

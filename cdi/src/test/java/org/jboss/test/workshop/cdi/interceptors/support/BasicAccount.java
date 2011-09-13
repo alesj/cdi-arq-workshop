@@ -23,30 +23,23 @@
 package org.jboss.test.workshop.cdi.interceptors.support;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
  */
-@ApplicationScoped
-public class BusinessObject {
-
-    @Inject @Large Account account;
-
-    @Auditable
-    public void print(String msg) {
-        System.out.println("msg = " + msg);
-    }
+@ApplicationScoped @Large
+public class BasicAccount implements Account {
+    private double sum;
 
     public void witdraw(double amount) {
-        account.witdraw(amount);
+        sum -= amount;
     }
 
     public void deposit(double amount) {
-        account.deposit(amount);
+        sum += amount;
     }
 
     public double getState() {
-        return account.getState();
+        return sum;
     }
 }
