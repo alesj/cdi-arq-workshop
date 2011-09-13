@@ -27,9 +27,11 @@ import org.jboss.arquillian.container.test.api.OperateOnDeployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.Archive;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.asset.Asset;
+import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.test.workshop.cdi.interceptors.support.AuditInterceptor;
+import org.jboss.test.workshop.cdi.interceptors.support.BusinessObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -41,15 +43,16 @@ public class InterceptorTestCase {
 
     @Deployment(name = "interceptors")
     public static Archive getDeployment() {
+        Asset beansXml = new StringAsset("<beans><interceptors><class>" + AuditInterceptor.class.getName() + "</class></interceptors></beans>");
         return ShrinkWrap.create(JavaArchive.class)
                 .addPackage(AuditInterceptor.class.getPackage())
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+                .addAsManifestResource(beansXml, "beans.xml");
     }
 
     @Test
-    @OperateOnDeployment("intercptors")
-    public void testInterceptors() throws Exception {
-        // TODO
+    @OperateOnDeployment("interceptors")
+    public void testInterceptors(BusinessObject bo) throws Exception {
+        bo.print("Testing interceptors.");
     }
 
 }

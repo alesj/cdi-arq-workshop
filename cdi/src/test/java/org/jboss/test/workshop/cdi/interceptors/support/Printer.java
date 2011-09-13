@@ -22,29 +22,13 @@
 
 package org.jboss.test.workshop.cdi.interceptors.support;
 
-import javax.inject.Inject;
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.Interceptor;
-import javax.interceptor.InvocationContext;
-
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
  */
-@Auditable
-@Interceptor
-public class AuditInterceptor {
+public class Printer {
 
-    @Inject
-    private Printer printer;
-
-    @AroundInvoke
-    public Object invoke(InvocationContext context) throws Exception {
-        printer.println("before = " + System.currentTimeMillis());
-        try {
-            return context.proceed();
-        } finally {
-            printer.println("after = " + System.currentTimeMillis());
-        }
+    public void println(String msg) {
+        System.out.println("@printer = " + msg);
     }
 
 }

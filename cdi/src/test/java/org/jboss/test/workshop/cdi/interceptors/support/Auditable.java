@@ -22,29 +22,17 @@
 
 package org.jboss.test.workshop.cdi.interceptors.support;
 
-import javax.inject.Inject;
-import javax.interceptor.AroundInvoke;
-import javax.interceptor.Interceptor;
-import javax.interceptor.InvocationContext;
+import javax.interceptor.InterceptorBinding;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
  */
-@Auditable
-@Interceptor
-public class AuditInterceptor {
-
-    @Inject
-    private Printer printer;
-
-    @AroundInvoke
-    public Object invoke(InvocationContext context) throws Exception {
-        printer.println("before = " + System.currentTimeMillis());
-        try {
-            return context.proceed();
-        } finally {
-            printer.println("after = " + System.currentTimeMillis());
-        }
-    }
-
+@InterceptorBinding
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.TYPE})
+public @interface Auditable {
 }
