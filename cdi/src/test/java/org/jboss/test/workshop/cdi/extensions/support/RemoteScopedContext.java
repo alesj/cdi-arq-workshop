@@ -60,7 +60,7 @@ public class RemoteScopedContext implements Context {
     public static Class<?> getBusinessInterface(Class<?> beanClass) {
         RemoteScoped rs = beanClass.getAnnotation(RemoteScoped.class);
         if (rs == null)
-            throw new IllegalArgumentException("Missing @MontereyScoped annotation: " + beanClass);
+            throw new IllegalArgumentException("Missing @RemoteScoped annotation: " + beanClass);
 
         Class<?> iface = rs.value();
         if (iface.equals(void.class) == false) {
