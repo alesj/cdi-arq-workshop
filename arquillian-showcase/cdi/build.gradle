@@ -1,0 +1,91 @@
+apply plugin: JavaPlugin
+
+buildDir = 'target/gradle-build'
+
+libraryVersions = [
+    junit: '4.8.1', arquillian: '1.0.0.CR1', jbossJavaeeSpec: '1.0.0.Final', weld: '1.1.1.Final',
+    slf4j: '1.5.10', log4j: '1.2.14', jbossas: '6.0.0.Final', glassfish: '3.1', cdi: '1.0-SP4',
+    hamcrest: '1.2', jbossAS7: '7.0.0.CR1'
+]
+
+repositories {
+    mavenCentral()
+    // enable if you want to use snapshots published locally
+    //mavenRepo urls: 'file://' + System.getProperty('user.home') + '/.m2/repository'
+    mavenRepo urls: 'http://repository.jboss.org/nexus/content/groups/public'
+    mavenRepo urls: 'http://repository.jboss.org/nexus/content/repositories/deprecated'
+}
+
+configurations {
+    compileOnly
+    weldEmbeddedTestRuntime { extendsFrom testRuntime }
+    jbossAS6RemoteTestRuntime { extendsFrom testRuntime, compileOnly }
+    jbossAS7ManagedTestRuntime { extendsFrom testRuntime, compileOnly }
+    jbossAS7RemoteTestRuntime { extendsFrom testRuntime, compileOnly }
+    glassfishEmbeddedTestRuntime { extendsFrom testRuntime }
+}
+
+dependencies {
+    // replace javax.enterprise:cdi-api with group: 'org.jboss.spec', name: 'jboss-javaee-6.0', version: libraryVersions.jbossJavaeeSpec to compile against full Java EE API
+    compileOnly group: 'javax.enterprise', name: 'cdi-api', version: libraryVersions.cdi
+
+    testCompile group: 'junit', name: 'junit', version: libraryVersions.junit
+    testCompile group: 'org.hamcrest', name: 'hamcrest-core', version: libraryVersions.hamcrest
+    testCompile group: 'org.jboss.arquillian.junit', name: 'arquillian-junit-container', version: libraryVersions.arquillian
+
+    weldEmbeddedTestRuntime group: 'org.jboss.arquillian.container', name: 'arquillian-weld-ee-embedded-1.1', version: libraryVersions.arquillian
+    weldEmbeddedTestRuntime group: 'org.jboss.spec', name: 'jboss-javaee-6.0', version: libraryVersions.jbossJavaeeSpec
+    weldEmbeddedTestRuntime group: 'org.jboss.weld', name: 'weld-core', version: libraryVersions.weld
+    weldEmbeddedTestRuntime group: 'org.slf4j', name: 'slf4j-log4j12', version: libraryVersions.slf4j
+    weldEmbeddedTestRuntime group: 'log4j', name: 'log4j', version: libraryVersions.log4j
+
+    jbossAS6RemoteTestRuntime group: 'org.jboss.arquillian.container', name: 'arquillian-jbossas-remote-6', version: libraryVersions.arquillian
+    jbossAS6RemoteTestRuntime group: 'org.jboss.spec', name: 'jboss-javaee-6.0', version: libraryVersions.jbossJavaeeSpec
+    jbossAS6RemoteTestRuntime group: 'org.jboss.jbossas', name: 'jboss-as-profileservice-client', version: libraryVersions.jbossas
+
+    jbossAS7ManagedTestRuntime group: 'org.jboss.as', name: 'jboss-as-arquillian-container-managed', version: libraryVersions.jbossAS7
+    jbossAS7ManagedTestRuntime group: 'org.jboss.spec', name: 'jboss-javaee-6.0', version: libraryVersions.jbossJavaeeSpec
+
+    jbossAS7RemoteTestRuntime group: 'org.jboss.as', name: 'jboss-as-arquillian-container-remote', version: libraryVersions.jbossAS7
+    jbossAS7RemoteTestRuntime group: 'org.jboss.spec', name: 'jboss-javaee-6.0', version: libraryVersions.jbossJavaeeSpec
+
+    glassfishEmbeddedTestRuntime group: 'org.jboss.arquillian.container', name: 'arquillian-glassfish-embedded-3.1', version: '1.0.0.CR1-SNAPSHOT'
+    glassfishEmbeddedTestRuntime group: 'org.glassfish.extras', name: 'glassfish-embedded-all', version: libraryVersions.glassfish
+}
+
+sourceSets {
+    main {
+        compileClasspath = configurations.compile + configurations.compileOnly
+    }
+    test {
+        compileClasspath = compileClasspath + configurations.compileOnly
+    }
+}
+
+task weldEmbeddedTest(type: Test)
+
+task jbossAS6RemoteTest(type: Test)
+
+task jbossAS7ManagedTest(type: Test)
+
+task jbossAS7RemoteTest(type: Test)
+
+task glassfishEmbeddedTest(type: Test)
+
+tasks.withType(Test).matching({ t-> t.name.endsWith('Test') } as Spec).each { t ->
+    t.testClassesDir = sourceSets.test.classesDir
+    t.classpath = sourceSets.test.classes + sourceSets.main.classes + configurations[t.name + 'Runtime']
+    if (t.name.startsWith('jbossas')) {
+      t.classpath += files('src/test/resources-jbossas')
+    }
+}
+
+test {
+  dependsOn { weldEmbeddedTest }
+  setEnabled(false) // FIXME: why is this disabled?
+}
+
+task generateWrapper(type: Wrapper) {
+    gradleVersion = '1.0-milestone-3'
+    jarFile = 'gradle-wrapper/gradle-wrapper.jar'
+}
