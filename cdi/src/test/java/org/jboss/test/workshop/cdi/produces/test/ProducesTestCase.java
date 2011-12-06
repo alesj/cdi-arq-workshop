@@ -30,10 +30,12 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.jboss.test.workshop.cdi.produces.support.BeanProducer;
+import org.jboss.test.workshop.cdi.produces.support.GenericQuery;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import javax.inject.Inject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -51,6 +53,11 @@ public class ProducesTestCase {
                 .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
+    @Inject
+    GenericQuery<String> gqs;
+    @Inject
+    GenericQuery<Number> gqn;
+
     @Test
     @OperateOnDeployment("produces")
     public void testProducesBean(InputStream is) throws Exception {
@@ -60,7 +67,9 @@ public class ProducesTestCase {
         String line;
         while ((line = reader.readLine()) != null)
             System.out.println(line);
-        System.out.println();
+
+        System.out.println("GQS: " + gqs.getClazz());
+        System.out.println("GQN: " + gqn.getClazz());
     }
 
 }

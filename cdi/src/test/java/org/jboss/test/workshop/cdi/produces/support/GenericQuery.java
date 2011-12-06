@@ -22,42 +22,17 @@
 
 package org.jboss.test.workshop.cdi.produces.support;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Disposes;
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.Annotated;
-import javax.enterprise.inject.spi.InjectionPoint;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
 /**
  * @author <a href="mailto:ales.justin@jboss.org">Ales Justin</a>
  */
-public class BeanProducer {
+public class GenericQuery<T> {
+    private Class<T> clazz;
 
-    @Produces
-    @ApplicationScoped
-    public InputStream getBeansXml() {
-        return getClass().getClassLoader().getResourceAsStream("META-INF/beans.xml");
+    public GenericQuery(Class<T> clazz) {
+        this.clazz = clazz;
     }
 
-    @SuppressWarnings({"unchecked"})
-    @Produces
-    public GenericQuery injectClass(InjectionPoint ip) {
-        Annotated annotated = ip.getAnnotated();
-        Class clazz = Object.class;
-        Type type = annotated.getBaseType();
-        if (type instanceof ParameterizedType) {
-            ParameterizedType pt = (ParameterizedType) type;
-            clazz = (Class) pt.getActualTypeArguments()[0];
-        }
-        return new GenericQuery(clazz);
-    }
-
-    public void dispose(@Disposes InputStream is) throws IOException {
-        System.out.println("Closing stream: " + is);
-        is.close();
+    public Class<T> getClazz() {
+        return clazz;
     }
 }
