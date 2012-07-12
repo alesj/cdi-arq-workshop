@@ -31,7 +31,7 @@ import javax.enterprise.context.ApplicationScoped;
 public class BasicAccount implements Account {
     private double sum;
 
-    public void witdraw(double amount) {
+    public void withdraw(double amount) {
         sum -= amount;
     }
 

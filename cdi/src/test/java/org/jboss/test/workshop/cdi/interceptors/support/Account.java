@@ -27,7 +27,7 @@ package org.jboss.test.workshop.cdi.interceptors.support;
  */
 public interface Account {
 
-    void witdraw(double amount);
+    void withdraw(double amount);
 
     void deposit(double amount);
 

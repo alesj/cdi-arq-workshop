@@ -34,9 +34,9 @@ public abstract class LargeAmountAccount implements Account {
 
     @Inject @Large @Delegate private Account delegate;
 
-    public void witdraw(double amount) {
+    public void withdraw(double amount) {
         System.out.println("Before [" + getState() + "], withdrawing amount = " + amount);
-        delegate.witdraw(amount);
+        delegate.withdraw(amount);
         System.out.println("After [" + getState() + "], withdrawn amount = " + amount);
     }
 

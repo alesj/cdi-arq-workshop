@@ -53,7 +53,7 @@ public class DecoratorTestCase {
     @OperateOnDeployment("decorator")
     public void testInterceptors(BusinessObject bo) throws Exception {
         bo.deposit(2011);
-        bo.witdraw(1509);
+        bo.withdraw(1509);
         System.out.println("sum = " + bo.getState());
     }
 
