@@ -22,19 +22,19 @@
     <properties>
         <version.cdi.api>1.0-SP4</version.cdi.api>
         <version.json>20090211</version.json>
-        <version.org.jboss.logging>3.0.0.GA</version.org.jboss.logging>
+        <version.org.jboss.logging>3.1.0.GA</version.org.jboss.logging>
         <version.javassist>3.14.0-GA</version.javassist>
-        <slf4j.version>1.5.10</slf4j.version>
+        <slf4j.version>1.6.1</slf4j.version>
         <cal10n.version>0.7.2</cal10n.version>
         <version.javax.validation>1.0.0.GA</version.javax.validation>
         <version.javax.servlet>2.5</version.javax.servlet>
         <version.javax.servlet.jsp>2.1</version.javax.servlet.jsp>
-        <version.org.infinispan>5.0.0.FINAL</version.org.infinispan>
+        <version.org.infinispan>5.2.0.Beta2</version.org.infinispan>
         <version.junit>4.7</version.junit>
-        <version.arquillian>1.0.0.CR4</version.arquillian>
-        <version.weld>1.1.8.Final</version.weld>
+        <version.arquillian>1.0.1.Final</version.arquillian>
+        <version.weld>1.1.10.Final</version.weld>
         <version.seam>3.0.0.Final</version.seam>
-        <arquillian.weld.version>1.0.0.CR2</arquillian.weld.version>
+        <arquillian.weld.version>1.0.0.CR3</arquillian.weld.version>
         <jboss.interceptor.version>2.0.0.CR1</jboss.interceptor.version>
         <jboss.spec.ejb.version>1.0.0.CR2</jboss.spec.ejb.version>
         <version.el>2.2</version.el>
@@ -95,56 +95,6 @@
     </build>
 
     <repositories>
-        <repository>
-            <id>oss-sonatype-central</id>
-            <name>OSS Sonatype Central</name>
-            <url>https://oss.sonatype.org/content/repositories/central/</url>
-            <layout>default</layout>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </repository>
-        <repository>
-            <id>maven-gae-plugin</id>
-            <name>Maven-gae-plugin Repository</name>
-            <url>http://maven-gae-plugin.googlecode.com/svn/repository</url>
-            <layout>default</layout>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </repository>
-        <repository>
-            <id>mvnrepository</id>
-            <name>Maven Repository</name>
-            <url>http://mvnrepository.com/artifact/</url>
-            <layout>default</layout>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </repository>
-        <repository>
-            <id>atlassian</id>
-            <name>Atlassian Repository</name>
-            <url>https://maven.atlassian.com/content/groups/public</url>
-            <layout>default</layout>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </repository>
-        <repository>
-            <id>datanucleus</id>
-            <name>Datanucleus Repository</name>
-            <url>http://www.datanucleus.org/downloads/maven2</url>
-            <layout>default</layout>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-        </repository>
         <repository>
             <id>jboss-public-repository-group</id>
             <name>JBoss Public Maven Repository Group</name>
@@ -236,10 +186,11 @@
             </dependency>
 
             <dependency>
-                <groupId>org.jboss.arquillian.junit</groupId>
-                <artifactId>arquillian-junit-container</artifactId>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <type>pom</type>
+                <scope>import</scope>
                 <version>${version.arquillian}</version>
-                <scope>test</scope>
             </dependency>
 
             <dependency>
