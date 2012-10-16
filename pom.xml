@@ -45,6 +45,8 @@
         <version.jpa>1.0</version.jpa>
         <version.validation>1.0.0.GA</version.validation>
         <version.metainf>1.1</version.metainf>
+        <!-- Cluster -->
+        <version.jboss.as>7.2.0.Alpha1-SNAPSHOT</version.jboss.as>
         <!-- Plugins -->
         <version.compiler.plugin>2.5.1</version.compiler.plugin>
     </properties>

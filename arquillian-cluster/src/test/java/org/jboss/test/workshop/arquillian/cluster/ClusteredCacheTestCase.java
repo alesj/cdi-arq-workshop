@@ -35,9 +35,9 @@ public class ClusteredCacheTestCase {
         return getDeployment();
     }
 
-    public static WebArchive getDeployment() {
+    protected static WebArchive getDeployment() {
         return ShrinkWrap.create(WebArchive.class, "cluster-tests.war")
-            .setWebXML("web.xml")
+            .setWebXML("cache-web.xml")
             .addAsManifestResource("jboss-deployment-structure.xml");
     }
 
