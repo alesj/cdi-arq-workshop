@@ -64,8 +64,8 @@ public class ClusteredWebTestCase {
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
 
-    @InSequence(10)
     @Test
+    @InSequence(10)
     @OperateOnDeployment("dep1")
     public void testClusterOnDepA(@ArquillianResource URL url) throws Exception {
         String uri = url.toExternalForm() + "holder?state=" + STRATOS;
@@ -78,8 +78,8 @@ public class ClusteredWebTestCase {
         Thread.sleep(3000L);
     }
 
-    @InSequence(20)
     @Test
+    @InSequence(20)
     @OperateOnDeployment("dep2")
     public void testClusterOnDepB(@ArquillianResource URL url) throws Exception {
         String uri = url.toExternalForm() + "holder";

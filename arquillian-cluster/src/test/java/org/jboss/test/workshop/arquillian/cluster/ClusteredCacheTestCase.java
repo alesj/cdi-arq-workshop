@@ -53,8 +53,8 @@ public class ClusteredCacheTestCase {
 
     private Cache<String, String> cache;
 
-    @InSequence(10)
     @Test
+    @InSequence(10)
     @OperateOnDeployment("dep1")
     public void testCacheOnDepA() {
         System.out.println("Running cache test.");
@@ -63,8 +63,8 @@ public class ClusteredCacheTestCase {
         assertEquals("value1", getCache().get("key01"));
     }
 
-    @InSequence(20)
     @Test
+    @InSequence(20)
     @OperateOnDeployment("dep2")
     public void testCacheOnDepB() {
         waitForSync();
