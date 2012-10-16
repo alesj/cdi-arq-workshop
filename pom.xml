@@ -16,6 +16,7 @@
 
     <modules>
         <module>arquillian</module>
+        <module>arquillian-cluster</module>
         <module>cdi</module>
     </modules>
 

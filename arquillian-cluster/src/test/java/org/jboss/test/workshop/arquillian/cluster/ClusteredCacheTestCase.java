@@ -1,13 +1,5 @@
 package org.jboss.test.workshop.arquillian.cluster;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-
-import javax.annotation.Resource;
-
 import org.infinispan.Cache;
 import org.infinispan.manager.CacheContainer;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -16,11 +8,14 @@ import org.jboss.arquillian.container.test.api.TargetsContainer;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.asset.StringAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import javax.annotation.Resource;
+import java.io.IOException;
+
+import static org.junit.Assert.*;
 
 
 
@@ -42,12 +37,11 @@ public class ClusteredCacheTestCase {
 
     public static WebArchive getDeployment() {
         return ShrinkWrap.create(WebArchive.class, "cluster-tests.war")
-            .setWebXML(new StringAsset("<web/>"))
-            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
+            .setWebXML("web.xml")
             .addAsManifestResource("jboss-deployment-structure.xml");
     }
 
-    @Resource(mappedName="java:jboss/infinispan/container/clustertest")
+    @Resource(mappedName="java:jboss/infinispan/container/cluster")
     CacheContainer container;
 
     protected Cache<String, String> getCache() {
