@@ -31,7 +31,7 @@
         <version.javax.servlet>2.5</version.javax.servlet>
         <version.javax.servlet.jsp>2.1</version.javax.servlet.jsp>
         <version.org.infinispan>5.2.0.Beta2</version.org.infinispan>
-        <version.junit>4.7</version.junit>
+        <version.junit>4.10</version.junit>
         <version.arquillian>1.0.1.Final</version.arquillian>
         <version.shrinkwrap>1.1.0</version.shrinkwrap>
         <version.shrinkwrap.resolver>2.0.0-alpha-4</version.shrinkwrap.resolver>
@@ -45,6 +45,7 @@
         <version.jpa>1.0</version.jpa>
         <version.validation>1.0.0.GA</version.validation>
         <version.metainf>1.1</version.metainf>
+        <version.org.apache.http>4.2.1</version.org.apache.http>
         <!-- Cluster -->
         <version.jboss.as>7.2.0.Alpha1-SNAPSHOT</version.jboss.as>
         <!-- Plugins -->
@@ -305,6 +306,11 @@
                 <version>${version.validation}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${version.org.apache.http}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

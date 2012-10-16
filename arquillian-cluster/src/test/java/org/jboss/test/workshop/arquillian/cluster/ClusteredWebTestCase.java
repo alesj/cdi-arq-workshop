@@ -1,68 +1,92 @@
 package org.jboss.test.workshop.arquillian.cluster;
 
 import junit.framework.Assert;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.OperateOnDeployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.container.test.api.TargetsContainer;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.junit.InSequence;
+import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.inject.Inject;
+import java.net.URL;
 
 
 /**
  * @author Ales Justin
  */
 @RunWith(Arquillian.class)
+@RunAsClient
 public class ClusteredWebTestCase {
+    private static final String STRATOS = "Project_Stratos";
 
-    @Deployment (name = "dep1") @TargetsContainer("container-1")
+    private static HttpClient client;
+
+    @BeforeClass
+    public static void setUp() {
+        client = new DefaultHttpClient();
+    }
+
+    @AfterClass
+    public static void tearDown() {
+        if (client != null)
+            client.getConnectionManager().shutdown();
+    }
+
+    @Deployment(name = "dep1")
+    @TargetsContainer("container-1")
     public static WebArchive getDeploymentA() {
         return getDeployment();
     }
 
-    @Deployment(name = "dep2") @TargetsContainer("container-2")
+    @Deployment(name = "dep2")
+    @TargetsContainer("container-2")
     public static WebArchive getDeploymentB() {
         return getDeployment();
     }
 
     protected static WebArchive getDeployment() {
         return ShrinkWrap.create(WebArchive.class, "cluster-tests.war")
-            .addClass(Holder.class)
-            .setWebXML("cluster-web.xml")
-            .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
+                .addClasses(Holder.class, HolderServlet.class)
+                .setWebXML("cluster-web.xml")
+                .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
     }
-
-    @Inject
-    Holder holder;
 
     @InSequence(10)
     @Test
     @OperateOnDeployment("dep1")
-    public void testClusterOnDepA() {
-        System.out.println("Running cluster test.");
-        holder.setState("Project Stratos!!");
+    public void testClusterOnDepA(@ArquillianResource URL url) throws Exception {
+        String uri = url.toExternalForm() + "holder?state=" + STRATOS;
+        System.out.println("Node1 - uri = " + uri);
+        HttpPost post = new HttpPost(uri);
+        HttpResponse response = client.execute(post);
+        String actual = EntityUtils.toString(response.getEntity());
+        Assert.assertEquals("OK", actual);
+        // sync
+        Thread.sleep(3000L);
     }
 
     @InSequence(20)
     @Test
     @OperateOnDeployment("dep2")
-    public void testClusterOnDepB() {
-        waitForSync();
-        System.out.println("Running cache test.");
-        Assert.assertEquals("Project Stratos!!", holder.getState());
-    }
-
-    private void waitForSync() {
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public void testClusterOnDepB(@ArquillianResource URL url) throws Exception {
+        String uri = url.toExternalForm() + "holder";
+        System.out.println("Node2 - uri = " + uri);
+        HttpPost post = new HttpPost(uri);
+        HttpResponse response = client.execute(post);
+        String actual = EntityUtils.toString(response.getEntity());
+        Assert.assertEquals(STRATOS, actual);
     }
 }

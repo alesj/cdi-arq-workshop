@@ -6,4 +6,14 @@
 
     <distributable/>
 
+    <servlet>
+        <servlet-name>HolderServlet</servlet-name>
+        <servlet-class>org.jboss.test.workshop.arquillian.cluster.HolderServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>HolderServlet</servlet-name>
+        <url-pattern>/holder</url-pattern>
+    </servlet-mapping>
+
 </web-app>
