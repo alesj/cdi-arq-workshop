@@ -43,6 +43,11 @@ public class BeanProducer {
         return getClass().getClassLoader().getResourceAsStream("META-INF/beans.xml");
     }
 
+    @Produces
+    public String produceString() {
+        return "OpenBlend";
+    }
+
     @SuppressWarnings({"unchecked"})
     @Produces
     public GenericQuery injectClass(InjectionPoint ip) {

@@ -58,6 +58,8 @@ public class ProducesTestCase {
     @Inject
     GenericQuery<Number> gqn;
 
+    @Inject String string;
+
     @Test
     @OperateOnDeployment("produces")
     public void testProducesBean(InputStream is) throws Exception {
@@ -70,6 +72,8 @@ public class ProducesTestCase {
 
         System.out.println("GQS: " + gqs.getClazz());
         System.out.println("GQN: " + gqn.getClazz());
+
+        System.out.println("String: " + string);
     }
 
 }
