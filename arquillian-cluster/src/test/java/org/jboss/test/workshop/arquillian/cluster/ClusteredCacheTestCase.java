@@ -82,7 +82,7 @@ public class ClusteredCacheTestCase {
 
     @InSequence(1010)
     @Test
-    @OperateOnDeployment("dep1")
+    @OperateOnDeployment("dep2")
     public void cleanTestClanUp() throws IOException {
         waitForSync();
         assertFalse(getCache().containsKey("key01"));
